@@ -1,0 +1,51 @@
+﻿<Window x:Class="DreieckeZählen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DreieckeZählen"
+        mc:Ignorable="d"
+        Title="Dreiecke zählen" Height="500" Width="750">
+    <Grid>
+        <Menu>
+            <MenuItem Name="miDatei" Header="Datei">
+                <MenuItem Name="miEinselen"  Header="Einlesen" Click="miEinselen_Click"/>
+            </MenuItem>
+            <MenuItem Name="miAuswerten" Header="Auswerten" Click="miAuswerten_Click"/>
+            <MenuItem Name="miClear" Header="Clear" Click="miClear_Click"/>
+            <MenuItem Header="Ausgeben">
+                <MenuItem Name="miPunkte" Header="Punkte" Click="miPunkte_Click"/>
+                <MenuItem Name="miDreiecke" Header="Dreiecke" Click="miDreiecke_Click"/>
+            </MenuItem>
+        </Menu>
+        <Viewbox StretchDirection="Both" >
+            <Grid>
+                <Border BorderThickness="1" BorderBrush="Blue" Margin="-132,292,433,47">
+                    <Canvas Name="CanvasEinlesen" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                        <Canvas.LayoutTransform>
+                            <ScaleTransform ScaleY="-1"/>
+                        </Canvas.LayoutTransform>
+                    </Canvas>
+                </Border>
+                <ListBox Name="lbCoord" FontSize="12" Margin="-132,39,433,300" MaxHeight="200" MaxWidth="200"/>
+                <ListBox Name="lbSp" FontSize="12" Margin="155,39,146,300" MaxHeight="200" MaxWidth="200"/>
+                <ListBox Name="lbDr" FontSize="12" Margin="443,39,-137,300" MaxHeight="200" MaxWidth="200"/>
+                <Button Name="bShow" Content="" Height="20" Width="40" Margin="745,554,-294,-35" Opacity="0"/>
+                <Border BorderThickness="1" BorderBrush="Blue" Margin="155,292,146,47">
+                    <Canvas  Name="CanvasSp" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                        <Canvas.LayoutTransform>
+                            <ScaleTransform ScaleY="-1"/>
+                        </Canvas.LayoutTransform>
+                    </Canvas>
+                </Border>
+                <Border BorderThickness="1" BorderBrush="Blue" Margin="441,292,-140,47">
+                    <Canvas  Name="CanvasDr" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+                        <Canvas.LayoutTransform>
+                            <ScaleTransform ScaleY="-1"/>
+                        </Canvas.LayoutTransform>
+                    </Canvas>
+                </Border>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Window>
