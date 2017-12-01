@@ -91,7 +91,7 @@ namespace DreieckeZählen
                         PointF close_p1;
                         PointF close_p2;
                         FindIntersection(strecke1, strecke2, out line_intersect, out segments_intersect, out intersection, out close_p1, out close_p2);
-                        if (segments_intersect == true)
+                        if (segments_intersect)
                         {
                             cPunkte tempPoint = new cPunkte(intersection.X, intersection.Y, strecke1.MyId, strecke2.MyId);
                             bool dupe = false;
@@ -103,7 +103,7 @@ namespace DreieckeZählen
                                 }
                             }
 
-                            if (dupe == false)
+                            if (!dupe)
                             {
                                 meinePunkte.Add(tempPoint);
                             }
@@ -122,31 +122,39 @@ namespace DreieckeZählen
                         {
                             bool dreick;
                             FindDreiecke(punkt1, punkt2, punkt3, out dreick);
-                            if (dreick == true)
+                            if (dreick)
                             {
                                 cDreiecke tempDreieck = new cDreiecke(punkt1.SpX1, punkt1.SpY1, punkt2.SpX1, punkt2.SpY1, punkt3.SpX1, punkt3.SpY1);
                                 bool dupe = false;
-                                PointF tempDreieckP1 = new PointF(tempDreieck.AX, tempDreieck.AY);
-                                PointF tempDreieckP2 = new PointF(tempDreieck.BX, tempDreieck.BY);
-                                PointF tempDreieckP3 = new PointF(tempDreieck.CX, tempDreieck.CY);
+                                //PointF tempDreieckP1 = new PointF(tempDreieck.AX, tempDreieck.AY);
+                                //PointF tempDreieckP2 = new PointF(tempDreieck.BX, tempDreieck.BY);
+                                //PointF tempDreieckP3 = new PointF(tempDreieck.CX, tempDreieck.CY);
+                                //foreach (cDreiecke Dreieck in meineDreiecke)
+                                //{
+                                //    PointF dreieckP1 = new PointF(Dreieck.AX, Dreieck.AY);
+                                //    PointF dreieckP2 = new PointF(Dreieck.BX, Dreieck.BY);
+                                //    PointF dreieckP3 = new PointF(Dreieck.CX, Dreieck.CY);
+                                //    if (dreieckP1 == tempDreieckP1 || dreieckP1 == tempDreieckP2 || dreieckP1 == tempDreieckP3)
+                                //    {
+                                //        if (dreieckP2 == tempDreieckP2 || dreieckP2 == tempDreieckP1 || dreieckP2 == tempDreieckP3)
+                                //        {
+                                //            if (dreieckP3 == tempDreieckP3 || dreieckP3 == tempDreieckP2 || dreieckP3 == tempDreieckP1)
+                                //            {
+                                //                dupe = true;
+                                //            }
+                                //        }
+                                //    }
+                                //}
                                 foreach (cDreiecke Dreieck in meineDreiecke)
                                 {
-                                    PointF dreieckP1 = new PointF(Dreieck.AX, Dreieck.AY);
-                                    PointF dreieckP2 = new PointF(Dreieck.BX, Dreieck.BY);
-                                    PointF dreieckP3 = new PointF(Dreieck.CX, Dreieck.CY);
-                                    if (dreieckP1 == tempDreieckP1 || dreieckP1 == tempDreieckP2 || dreieckP1 == tempDreieckP3)
+                                    if (Dreieck.istGleich(tempDreieck))
                                     {
-                                        if (dreieckP2 == tempDreieckP2 || dreieckP2 == tempDreieckP1 || dreieckP2 == tempDreieckP3)
-                                        {
-                                            if (dreieckP3 == tempDreieckP3 || dreieckP3 == tempDreieckP2 || dreieckP3 == tempDreieckP1)
-                                            {
-                                                dupe = true;
-                                            }
-                                        }
+                                        dupe = true;
+                                        break;
                                     }
                                 }
 
-                                if (dupe == false)
+                                if (!dupe)
                                 {
                                     meineDreiecke.Add(tempDreieck);
                                 }
@@ -173,7 +181,7 @@ namespace DreieckeZählen
 
             foreach (cPunkte Punkt in meinePunkte)
             {
-                lbSp.Items.Add("StreckenID's: " + Punkt.StreckenID11 + '/' + Punkt.StreckenID21 + " Schnittpunkt: " + Punkt.SpX1 + '|' + Punkt.SpY1);
+                lbSp.Items.Add("StreckenID's: " + Punkt.StreckenID1 + '/' + Punkt.StreckenID2 + " Schnittpunkt: " + Punkt.SpX1 + '|' + Punkt.SpY1);
                 Ellipse tempEllipse = new Ellipse();
                 tempEllipse.Height = 3;
                 tempEllipse.Width = 3;
@@ -369,75 +377,72 @@ namespace DreieckeZählen
             PointF p1 = new PointF(punkt1.SpX1, punkt1.SpY1);
             PointF p2 = new PointF(punkt2.SpX1, punkt2.SpY1);
             PointF p3 = new PointF(punkt3.SpX1, punkt3.SpY1);
-            if (p1 != p2 && p1 != p3 && p2 != p3)
+            if (punkt1.StreckenID1 == punkt2.StreckenID1)
             {
-                if (punkt1.StreckenID11 == punkt2.StreckenID11)
+                if (punkt2.StreckenID2 == punkt3.StreckenID1)
                 {
-                    if (punkt2.StreckenID21 == punkt3.StreckenID11)
+                    if (punkt3.StreckenID2 == punkt1.StreckenID2)
                     {
-                        if (punkt3.StreckenID21 == punkt1.StreckenID21)
-                        {
-                            dreieck = true;
-                        }
-                    }
-                    if (punkt2.StreckenID21 == punkt3.StreckenID21)
-                    {
-                        if (punkt3.StreckenID11 == punkt1.StreckenID21)
-                        {
-                            dreieck = true;
-                        }
+                        dreieck = true;
                     }
                 }
-                if (punkt1.StreckenID11 == punkt2.StreckenID21)
+                if (punkt2.StreckenID2 == punkt3.StreckenID2)
                 {
-                    if (punkt2.StreckenID11 == punkt3.StreckenID11)
+                    if (punkt3.StreckenID1 == punkt1.StreckenID2)
                     {
-                        if (punkt3.StreckenID21 == punkt1.StreckenID21)
-                        {
-                            dreieck = true;
-                        }
-                    }
-                    if (punkt2.StreckenID11 == punkt3.StreckenID21)
-                    {
-                        if (punkt3.StreckenID11 == punkt1.StreckenID21)
-                        {
-                            dreieck = true;
-                        }
+                        dreieck = true;
                     }
                 }
+            }
+            if (punkt1.StreckenID1 == punkt2.StreckenID2)
+            {
+                if (punkt2.StreckenID1 == punkt3.StreckenID1)
+                {
+                    if (punkt3.StreckenID2 == punkt1.StreckenID2)
+                    {
+                        dreieck = true;
+                    }
+                }
+                if (punkt2.StreckenID1 == punkt3.StreckenID2)
+                {
+                    if (punkt3.StreckenID1 == punkt1.StreckenID2)
+                    {
+                        dreieck = true;
+                    }
+                }
+            }
 
-                if (punkt1.StreckenID21 == punkt2.StreckenID11)
+            if (punkt1.StreckenID2 == punkt2.StreckenID1)
+            {
+                if (punkt2.StreckenID2 == punkt3.StreckenID1)
                 {
-                    if (punkt2.StreckenID21 == punkt3.StreckenID11)
+                    if (punkt3.StreckenID2 == punkt1.StreckenID1)
                     {
-                        if (punkt3.StreckenID21 == punkt1.StreckenID11)
-                        {
-                            dreieck = true;
-                        }
-                    }
-                    if (punkt2.StreckenID21 == punkt3.StreckenID21)
-                    {
-                        if (punkt3.StreckenID11 == punkt1.StreckenID11)
-                        {
-                            dreieck = true;
-                        }
+                        dreieck = true;
                     }
                 }
-                if (punkt1.StreckenID21 == punkt2.StreckenID21)
+                if (punkt2.StreckenID2 == punkt3.StreckenID2)
                 {
-                    if (punkt2.StreckenID11 == punkt3.StreckenID11)
+                    if (punkt3.StreckenID1 == punkt1.StreckenID1)
                     {
-                        if (punkt3.StreckenID21 == punkt1.StreckenID11)
-                        {
-                            dreieck = true;
-                        }
+                        dreieck = true;
                     }
-                    if (punkt2.StreckenID11 == punkt3.StreckenID21)
+                }
+            }
+            if (punkt1.StreckenID2 == punkt2.StreckenID2)
+            {
+                if (punkt2.StreckenID1 == punkt3.StreckenID1)
+                {
+                    if (punkt3.StreckenID2 == punkt1.StreckenID1)
                     {
-                        if (punkt3.StreckenID11 == punkt1.StreckenID11)
-                        {
-                            dreieck = true;
-                        }
+                        dreieck = true;
+                    }
+                }
+                if (punkt2.StreckenID1 == punkt3.StreckenID2)
+                {
+                    if (punkt3.StreckenID1 == punkt1.StreckenID1)
+                    {
+                        dreieck = true;
                     }
                 }
             }
@@ -467,7 +472,7 @@ namespace DreieckeZählen
             cPunkte Punkt = meinePunkte[i];
             foreach (cStrecken Strecke in meineStrecken)
             {
-                if (Strecke.MyId == Punkt.StreckenID11 || Strecke.MyId == Punkt.StreckenID21)
+                if (Strecke.MyId == Punkt.StreckenID1 || Strecke.MyId == Punkt.StreckenID2)
                 {
                     Line tempLine = new Line();
                     tempLine.Stroke = System.Windows.Media.Brushes.LightBlue;

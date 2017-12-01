@@ -12,8 +12,8 @@ namespace DreieckeZählen
         //SP = Schnittpunkt
         float SpX;
         float SpY;
-        int StreckenID1;
-        int StreckenID2;
+        int streckenID1;
+        int streckenID2;
 
         public int MyId { get; set; }
 
@@ -21,8 +21,8 @@ namespace DreieckeZählen
         {
             SpX = _SpX;
             SpY = _SpY;
-            StreckenID1 = Id1;
-            StreckenID2 = Id2;
+            streckenID1 = Id1;
+            streckenID2 = Id2;
             MyId = localId;
             localId++;
         }
@@ -44,19 +44,19 @@ namespace DreieckeZählen
             }
         }
 
-        public int StreckenID11
+        public int StreckenID1
         {
             get
             {
-                return StreckenID1;
+                return streckenID1;
             }
         }
 
-        public int StreckenID21
+        public int StreckenID2
         {
             get
             {
-                return StreckenID2;
+                return streckenID2;
             }
         }
     }
